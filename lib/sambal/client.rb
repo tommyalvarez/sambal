@@ -31,7 +31,8 @@ module Sambal
         options = parsed_options(user_options)
         @timeout = options[:timeout].to_i
 
-        option_flags = "-W \"#{options[:domain]}\" -U \"#{options[:user]}\" -I #{options[:ip_address]} -p #{options[:port]}"
+        option_flags = "-W \"#{options[:domain]}\" -U \"#{options[:user]}\" -p #{options[:port]}"
+        option_flags << " -I #{options[:ip_address]}" if options[:ip_address].present?
         command = "COLUMNS=#{options[:columns]} smbclient \"//#{options[:host]}/#{options[:share]}\" '#{options[:password]}'"
 
         @output, @input, @pid = PTY.spawn(command + ' ' + option_flags)
